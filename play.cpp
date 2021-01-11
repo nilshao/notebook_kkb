@@ -1,8 +1,5 @@
-/*
 #include <iostream>
 #include<iostream>
-
-using namespace std;
 
 template <typename Type> class Node {
 public:
@@ -60,22 +57,21 @@ public:
         }
         Node<Type> *current_node = head;
         while (current_node != NULL) {
-            cout << current_node->data << " ";
+            std::cout << current_node->data << " ";
             current_node = current_node->next;
         }
-        cout << endl;
+        std::cout << std::endl;
     }
-    bool delete_node(int index) {
+    
+    int delete_node(int index) {
         if(head == NULL){
-            return 1;
+            std::cout << "success"<< std::endl;
         }
         Node<Type> *current_node = head;
         int count = 0;
         if(index==0){
             head = head->next;
-            free(current_node);
-            printf("success\n");
-            return 1;
+            delete current_node;
         }
         while(current_node->next!=NULL && count < index-1){
             current_node = current_node->next;
@@ -84,20 +80,20 @@ public:
         if(count==index-1&&current_node->next!=NULL){
             Node<Type> *delete_node=current_node->next;
             current_node->next=delete_node->next;
-            free(delete_node);
-            printf("success\n");
+            delete delete_node;
             return 1;
         }else{
-            printf("failed\n");
-            return 0;
+            //没删成功
         }
-        return 1;
+        return 0;
+
     }
+    
     void reverse() {
         if(head==NULL){
             return;
         }
-        Node<Type> *next_node, *current_node;
+        Node<int> *next_node, *current_node;
         current_node = head->next;
         head->next = NULL;
         while(current_node!=NULL){
@@ -106,138 +102,40 @@ public:
             head = current_node;
             current_node = next_node;
         }
+        return;
     }
+    
 };
-
 int main() {
     LinkedList<int> linkedlist;
-    
     int t;
-    scanf("%d",&t);    
+    std::cin >> t;
     for(int i=0;i<t;++i){
         int cmd;
-        scanf("%d",&cmd);
-        switch(cmd){
-            case 1:{
-                //insert
-                int loc,val;
-                
-                scanf("%d%d",&loc,&val);
-                Node<int> *node;
-                node->data = val;
-                node->next = NULL;
-                
-                if(linkedlist.insert(node,loc)){
-                    printf("success\n");
-                }else{
-                    printf("failed\n");
-                }
-                break;
+        std::cin >> cmd;
+        if(cmd==1){                             //insert
+            int data,loc;
+            std::cin >> loc >> data;
+            Node<int> *n1= new Node<int>(data);
+            if(linkedlist.insert(n1,loc)){
+                std::cout << "success"<< std::endl;
+            }else{
+                std::cout << "failed" << std::endl;
             }
-            case 2:{ 
-                //print
-                linkedlist.output();
-                break;
+            linkedlist.output();
+        }else if(cmd==2){                       //output
+            linkedlist.output();
+        }else if(cmd==3){                       //delete
+            int loc;
+            std::cin >> loc;
+            if(linkedlist.delete_node(loc)){
+                std::cout << "success"<< std::endl;
+            }else{
+                std::cout << "failed" << std::endl;
             }
-            case 3:{
-                //delete
-                int index;
-                scanf("%d",&index);
-                if(linkedlist.delete_node(index)==0){
-                    printf("failed\n");
-                }else{
-                    printf("success\n");
-                }
-                break;
-            }
-            case 4:{
-                //reverse;
-                linkedlist.reverse();
-                break;
-            }
+        }else if(cmd==4){                       //reverse
+            linkedlist.reverse();
         }
     }
-    linkedlist.output();
-    return 0;
-}
-*/
-#include <iostream>
-#include<iostream>
-
-using namespace std;
-
-template <typename Type> class Node {
-public:
-    Type data;
-    Node<Type> *next;
-    Node(const Type &_data) {
-        data = _data;
-        next = NULL;
-    }
-};
-template <typename Type> class LinkedList {
-private:
-    Node<Type> *head;
-public:
-    LinkedList() {
-        head = NULL;
-    }
-    ~LinkedList() {
-        Node<Type> *current_node = head;
-        while (current_node != NULL) {
-            Node<Type> *delete_node = current_node;
-            current_node = current_node->next;
-            delete delete_node;
-        }
-    }
-    bool insert(Node<Type> *node, int index) {
-        if (head == NULL) {
-            if (index != 0) {
-                return false;
-            }
-            head = node;
-            return true;
-        }
-        if (index == 0) {
-            node->next = head;
-            head = node;
-            return true;
-        }
-        Node<Type> *current_node = head;
-        int count = 0;
-        while (current_node->next != NULL && count < index - 1) {
-            current_node = current_node->next;
-            count++;
-        }
-        if (count == index - 1) {
-            node->next = current_node->next;
-            current_node->next = node;
-            return true;
-        }
-        return false;
-    }
-    void output() {
-        if (head == NULL) {
-            return;
-        }
-        Node<Type> *current_node = head;
-        while (current_node != NULL) {
-            cout << current_node->data << " ";
-            current_node = current_node->next;
-        }
-        cout << endl;
-    }
-    /*
-    int delete_node() {
-
-    }
-    void reverse() {
-
-    }
-    */
-};
-int main() {
-    LinkedList<int> linkedlist;
-
     return 0;
 }

@@ -1,5 +1,12 @@
 {
     "files.associations": {
-        "random": "c"
+        "random": "c",
+        "array": "cpp",
+        "string": "cpp",
+        "string_view": "cpp",
+        "ranges": "cpp",
+        "new": "cpp",
+        "iostream": "cpp",
+        "ostream": "cpp"
     }
 }
