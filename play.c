@@ -20,7 +20,7 @@ int main() {
     for(int i=1;(long long)i*i<target-i*i;++i){
         if(isSquare(target-i*i)){
             count++;
-
+//
         }
     }
     printf("%d\n",count);
